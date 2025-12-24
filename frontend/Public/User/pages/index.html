@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventHub - Discover Events</title>
+
+  <!-- Global + components + page styles -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <h1>Discover & Book Amazing Events</h1>
+      <p>All tech, cultural and workshop events in one simple dashboard.</p>
+      <div class="hero-actions">
+        <a href="#events" class="btn btn-primary">Browse Events</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="events" class="events-section container">
+      <header class="events-filter">
+        <h2>Upcoming Events</h2>
+        <div class="filter-controls">
+  <input type="text" id="search-input" placeholder="Search events...">
+</div>
+
+      </header>
+
+      <section class="events-grid grid grid-3" id="events-container">
+        <!-- Events loaded by JS -->
+      </section>
+
+      <div class="pagination-container" style="text-align: center; margin-top: 2rem;">
+        <button id="load-more-btn" class="btn btn-secondary">Load More</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <p id="modal-message"></p>
+      <div class="modal-actions">
+        <button id="modal-confirm" class="btn btn-primary">OK</button>
+        <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load services and utilities -->
+  <script src="../../js/config.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/services/api.js" type="module"></script>
+  <script src="../../js/services/auth.js"></script>
+  <script src="../../js/components/toast.js"></script>
+  <script src="../../js/components/modal.js"></script>
+  <script src="../js/components/Navbar.js" type="module"></script>
+  
+  <!-- Page specific scripts -->
+  <script type="module" src="../js/pages/Home.js"></script>
+</body>
+</html>

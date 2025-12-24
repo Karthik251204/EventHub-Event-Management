@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventHub - Sign Up</title>
+  <link rel="stylesheet" href="../css/signup.css" />
+</head>
+<body>
+  <main class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <section class="signup-card">
+        <h1>Create your EventHub account</h1>
+        <p class="subtitle">Sign up as an organizer or event explorer and start your journey.</p>
+
+        <form id="signup-form">
+          <!-- Name -->
+          <div class="form-row">
+            <label for="name">Full name</label>
+            <input type="text" id="name" required placeholder="Enter your name" />
+          </div>
+
+          <!-- Role -->
+          <div class="form-row">
+            <label for="role">I am an</label>
+            <select id="role" required>
+              <option value="">Select type</option>
+              <option value="organizer">Organizer</option>
+              <option value="explorer">Event explorer</option>
+            </select>
+          </div>
+
+          <!-- Mobile -->
+          <div class="form-row">
+            <label for="mobile">Mobile number</label>
+            <input
+              type="tel"
+              id="mobile"
+              required
+              pattern="[0-9]{10}"
+              maxlength="10"
+              placeholder="10-digit mobile"
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="form-row">
+            <label for="email">Email address</label>
+            <input
+              type="text"
+              id="email"
+              required
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <!-- Passwords -->
+          <div class="form-row">
+            <label for="password">Set password</label>
+            <input
+              type="password"
+              id="password"
+              required
+              minlength="6"
+              placeholder="Minimum 6 characters"
+            />
+          </div>
+
+          <div class="form-row">
+            <label for="confirm-password">Repeat password</label>
+            <input
+              type="password"
+              id="confirm-password"
+              required
+              minlength="6"
+              placeholder="Re-enter password"
+            />
+          </div>
+
+          <p class="error" id="error-msg"></p>
+          <p class="success" id="success-msg"></p>
+
+          <button type="submit" class="btn btn-primary full-width">Submit</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- Load services and utilities -->
+  <script src="../../js/config.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/services/api.js"></script>
+  <script src="../../js/services/auth.js"></script>
+  <script src="../../js/components/toast.js"></script>
+  <script src="../../js/components/modal.js"></script>
+  
+  <!-- Load page logic -->
+  <script src="../js/signup.js"></script>
+</body>
+</html>

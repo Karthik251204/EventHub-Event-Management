@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Tickets - EventHub</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="event-card">
+        <h1>Book Tickets</h1>
+        
+        <div class="event-info">
+          <h2 id="event-title"></h2>
+          <p class="event-meta"><strong>Date:</strong> <span id="event-date"></span></p>
+          <p class="event-meta"><strong>Location:</strong> <span id="event-location"></span></p>
+          <p class="event-meta"><strong>Price per ticket:</strong> ₹<span id="ticket-price">500</span></p>
+        </div>
+
+          <form id="booking-form">
+            <div class="form-group">
+              <label for="num-tickets">Number of Tickets</label>
+              <input type="number" id="num-tickets" min="1" max="10" value="1" required>
+            </div>
+
+            <div class="form-group">
+              <label for="ticket-holder">Ticket Holder Name</label>
+              <input type="text" id="ticket-holder" required>
+            </div>
+
+            <div class="total-section">
+              <h3>Total Amount: ₹<span id="total-amount">500</span></h3>
+            </div>
+
+            <div class="payment-method">
+              <h3>Payment Method</h3>
+              <div class="payment-options">
+                <label>
+                  <input type="radio" name="payment" value="card" checked>
+                  Credit/Debit Card
+                </label>
+                <label>
+                  <input type="radio" name="payment" value="upi">
+                  UPI
+                </label>
+              </div>
+            </div>
+
+            <div id="card-details" class="payment-details">
+              <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+              </div>
+              <div class="form-group">
+                <label for="card-holder">Cardholder Name</label>
+                <input type="text" id="card-holder">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="expiry-date">Expiry Date</label>
+                  <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="form-group">
+                  <label for="cvv">CVV</label>
+                  <input type="text" id="cvv" placeholder="123" maxlength="3">
+                </div>
+              </div>
+            </div>
+
+            <div id="upi-details" class="payment-details" style="display: none;">
+              <h4>Choose UPI App</h4>
+              <div class="upi-options">
+                <button type="button" class="upi-btn" data-app="gpay">Google Pay</button>
+                <button type="button" class="upi-btn" data-app="phonepe">PhonePe</button>
+                <button type="button" class="upi-btn" data-app="paytm">Paytm</button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Complete Booking</button>
+          </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../js/config.js"></script>
+  <script src="../../js/utils.js"></script>
+
+  <script src="../../js/services/auth.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/components/Navbar.js"></script>
+  <script src="../js/pages/booking.js"></script>
+</body>
+</html>

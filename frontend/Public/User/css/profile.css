@@ -1,0 +1,80 @@
+body {
+  background: url('../img1.jpg') no-repeat center center/cover;
+  background-attachment: fixed;
+}
+
+.profile-section {
+  max-width: 800px;
+  margin: 100px auto;
+  padding: 30px;
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+#user-info-table {
+  width: 100%;
+  margin: 0 auto 2rem auto;
+  border-collapse: collapse;
+}
+
+#user-info-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+#user-info-table tr:last-child td {
+  border-bottom: none;
+}
+
+#update-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.profile-header h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.profile-header p {
+  color: #cbd5e1;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #e2e8f0;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: #f1f5f9;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5);
+}
+
+.form-actions {
+  text-align: right;
+  margin-top: 30px;
+}

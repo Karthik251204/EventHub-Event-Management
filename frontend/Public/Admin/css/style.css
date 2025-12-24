@@ -1,0 +1,65 @@
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* FULL-SCREEN STATIC BACKGROUND IMAGE */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #f9fafb;
+  background-image: url('../img1.jpg');  /* image is in Admin/assets/images */
+  background-size: cover;        /* fill screen */
+  background-position: center;   /* center image */
+  background-attachment: fixed;  /* static on scroll */
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* GENERIC BUTTONS */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.btn-primary {
+  background: #ffffff;
+  color: #000000;
+}
+
+.btn-primary:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #111827;
+  color: #f9fafb;
+}
+
+/* GRID HELPER (if needed later) */
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 16px; }
+  .grid-3 { grid-template-columns: 1fr; }
+}

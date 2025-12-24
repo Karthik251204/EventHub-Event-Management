@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmation - EventHub</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="event-card">
+        <div class="confirmation-header">
+          <h1>🎉 Booking Confirmed!</h1>
+          <p>Your tickets have been successfully booked</p>
+        </div>
+
+        <div class="ticket-details">
+          <div class="ticket-info">
+            <h2>Ticket Details</h2>
+            <table class="details-table">
+              <tbody>
+                <tr>
+                  <td><strong>Ticket ID:</strong></td>
+                  <td id="ticket-id"></td>
+                </tr>
+                <tr>
+                  <td><strong>Event:</strong></td>
+                  <td id="event-name"></td>
+                </tr>
+                <tr>
+                  <td><strong>Ticket Holder:</strong></td>
+                  <td id="ticket-holder"></td>
+                </tr>
+                <tr>
+                  <td><strong>Number of Tickets:</strong></td>
+                  <td id="num-tickets"></td>
+                </tr>
+                <tr>
+                  <td><strong>Event Date:</strong></td>
+                  <td id="event-date"></td>
+                </tr>
+                <tr>
+                  <td><strong>Location:</strong></td>
+                  <td id="event-location"></td>
+                </tr>
+                <tr>
+                  <td><strong>Total Amount:</strong></td>
+                  <td>₹<span id="total-amount"></span></td>
+                </tr>
+                <tr>
+                  <td><strong>Payment Method:</strong></td>
+                  <td id="payment-method"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="qr-section">
+            <h3>Your Ticket QR Code</h3>
+            <div id="qr-code"></div>
+            <p class="qr-note">Show this QR code at the event entrance</p>
+          </div>
+        </div>
+
+        <div class="confirmation-actions">
+          <button id="download-ticket" class="btn btn-primary">Download Ticket</button>
+          <button id="back-home" class="btn btn-secondary">Back to Home</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="../../js/config.js"></script>
+  <script src="../../js/utils.js"></script>
+
+  <script src="../../js/services/auth.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/components/Navbar.js"></script>
+  <script src="../js/pages/confirmation.js"></script>
+</body>
+</html>

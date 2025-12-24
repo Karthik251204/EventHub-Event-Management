@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Details - EventHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body class="event-detail-background">
+  <nav id="navbar"></nav>
+
+    <main>
+    <div class="container event-detail-container">
+      <div class="event-card">
+        <img id="event-cover-image" src="" alt="Event Cover" class="event-cover-image">
+        <h2 id="event-name" class="event-title"></h2>
+        <p class="event-meta"><strong>Category:</strong> <span id="event-category"></span></p>
+        <p class="event-meta"><strong>Seating Capacity:</strong> <span id="event-seating-capacity"></span></p>
+        <p class="event-meta"><strong>Date & Time:</strong> <span id="event-date-time"></span></p>
+        <p class="event-meta"><strong>Location:</strong> <span id="event-location"></span></p>
+        <p class="event-description event-description-wrapper" id="event-description"></p>
+        <button id="book-tickets-btn" class="btn btn-primary">Book Tickets</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <p id="modal-message"></p>
+      <button id="modal-confirm" class="btn btn-primary">OK</button>
+    </div>
+  </div>
+
+  <script src="../../js/config.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../js/services/api.js" type="module"></script>
+  <script src="../../js/services/auth.js"></script>
+  <script src="../../js/components/toast.js"></script>
+  <script src="../../js/components/modal.js"></script>
+  <script src="../js/services/websocket.js" type="module"></script>
+  <script src="../js/components/Navbar.js"></script>
+  <script src="../js/components/SeatMap.js"></script>
+  <script src="../js/pages/EventDetail.js"></script>
+</body>
+</html>

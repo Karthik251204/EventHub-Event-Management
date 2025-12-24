@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventHub - Login</title>
+  <link rel="stylesheet" href="../css/login.css" />
+</head>
+<body>
+  <main class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <section class="login-card">
+        <h1>Welcome back to EventHub</h1>
+        <p class="subtitle">Login with your email and password to continue.</p>
+
+        <form id="login-form">
+          <div class="form-row">
+            <label for="email">Email address</label>
+            <input
+              type="text"
+              id="email"
+              required
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <div class="form-row">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              required
+              minlength="6"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <p class="error" id="error-msg"></p>
+
+          <button type="submit" class="btn btn-primary full-width">Login</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- Load services and utilities -->
+  <script src="../../js/config.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/services/api.js"></script>
+  <script src="../../js/services/auth.js"></script>
+  <script src="../../js/components/toast.js"></script>
+  <script src="../../js/components/modal.js"></script>
+  
+  <!-- Load page logic -->
+  <script src="../js/login.js"></script>
+</body>
+</html>

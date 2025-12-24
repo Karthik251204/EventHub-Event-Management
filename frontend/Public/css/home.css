@@ -1,0 +1,182 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BACKGROUND */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #f9fafb;
+  line-height: 1.6;
+  background-image: url('../../img1.jpg');  /* make sure img1.jpg is in this folder */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.btn-primary,
+.btn-secondary {
+  background: #ffffff;
+  color: #000000;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+/* HEADER */
+.home-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 0;
+  z-index: 100;
+}
+
+.home-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* SECTIONS */
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px;    /* header offset */
+  padding-bottom: 60px;
+}
+
+/* HERO */
+.hero-section {
+  position: relative;
+}
+
+.hero-content {
+  max-width: 700px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1 {
+  font-size: 2.6rem;
+  margin-bottom: 12px;
+}
+
+.hero-content p {
+  font-size: 1.05rem;
+  opacity: 0.9;
+  margin-bottom: 16px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Scroll arrow (hero + about) */
+.scroll-down {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(15,23,42,0.85);
+  color: #f9fafb;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.scroll-down:hover {
+  background: rgba(99,102,241,0.95);
+  transform: translate(-50%, -2px);
+}
+
+/* About & Contact */
+.about-section {
+  position: relative;                 /* needed for about arrow */
+  background: rgba(15,23,42,0.8);
+  backdrop-filter: blur(8px);
+}
+
+.contact-section {
+  background: rgba(15,23,42,0.8);
+  backdrop-filter: blur(8px);
+}
+
+.about-section h2,
+.contact-section h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.about-section p {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+
+.contact-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 12px;
+}
+
+.contact-details h3 {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.contact-details a {
+  color: #c4b5fd;
+  text-decoration: none;
+}
+
+.contact-details a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.1rem;
+  }
+  .section {
+    padding-bottom: 80px;
+  }
+}
