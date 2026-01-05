@@ -44,8 +44,8 @@ class ApiService {
 
     const config = {
       ...options,
-      headers,
-      signal: AbortSignal.timeout(this.timeout)
+      headers
+      // Removed timeout for testing
     };
 
     try {

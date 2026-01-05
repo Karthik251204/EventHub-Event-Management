@@ -9,7 +9,7 @@ COPY . .
 
 # Set environment variables
 ENV PORT=3000
-ENV DATABASE_URL=postgresql://postgres:0304@13.203.105.12:5432/eventhub_db
+ENV DATABASE_URL=postgresql://postgres:0304@localhost:5432/eventhub_db
 ENV JWT_SECRET=your_jwt_secret_key_change_in_production
 ENV NODE_ENV=development
 
