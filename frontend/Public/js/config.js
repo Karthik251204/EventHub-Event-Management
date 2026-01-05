@@ -14,7 +14,7 @@ const CONFIG = {
       BOOKINGS: '/bookings',
       PAYMENTS: '/payments'
     },
-    TIMEOUT: 30000 // 30 seconds
+    TIMEOUT: 60000 // 60 seconds
   },
 
   // Storage keys
