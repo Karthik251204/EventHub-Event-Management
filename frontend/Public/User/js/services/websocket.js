@@ -3,7 +3,7 @@ import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
 let socket;
 
 export function connectWebSocket() {
-  socket = io('http://localhost:3000');
+  socket = io('http://13.203.105.12:3000');
   return socket;
 }
 

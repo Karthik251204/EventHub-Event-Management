@@ -7,7 +7,7 @@
 const CONFIG = {
   // API Configuration
   API: {
-    BASE_URL: `http://localhost:3000/api`,
+    BASE_URL: `http://13.203.105.12:3000/api`,
     ENDPOINTS: {
       AUTH: '/auth',
       EVENTS: '/events',
