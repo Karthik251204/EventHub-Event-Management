@@ -23,8 +23,8 @@ const paymentsRouter = require('./routes/payments');
 // CORS configuration - allow frontend from port 8001
 const corsOptions = {
   origin: [
-    'http://localhost:8001',
-    'http://localhost:8080',
+    'http://13.203.105.12:8001',
+    'http://13.203.105.12:8080',
     'http://127.0.0.1:8001',
     'http://127.0.0.1:8080'
   ],
@@ -70,7 +70,7 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(`✅ Server running at http://13.203.105.12:${PORT}`);
   console.log(`📚 API Documentation:`);
   console.log(`   POST /api/auth/signup - Register new user`);
   console.log(`   POST /api/auth/login - Login user`);
