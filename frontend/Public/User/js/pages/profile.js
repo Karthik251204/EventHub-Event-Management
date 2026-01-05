@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.warn('No authentication token found');
     Toast.error('You must be logged in to view this page.');
     setTimeout(() => {
-      window.location.href = 'http://localhost:8001/Public/auth/pages/login.html';
+      window.location.href = 'http://13.203.105.12:8001/Public/auth/pages/login.html';
     }, 1500);
     return;
   }
@@ -46,14 +46,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.warn('No user data returned');
       Toast.error('Could not load user information.');
       setTimeout(() => {
-        window.location.href = 'http://localhost:8001/Public/auth/pages/login.html';
+        window.location.href = 'http://13.203.105.12:8001/Public/auth/pages/login.html';
       }, 1500);
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
     Toast.error(`Error: ${error.message}`);
     setTimeout(() => {
-      window.location.href = 'http://localhost:8001/Public/auth/pages/login.html';
+      window.location.href = 'http://13.203.105.12:8001/Public/auth/pages/login.html';
     }, 1500);
   }
 

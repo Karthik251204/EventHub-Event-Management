@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load event details
   try {
-    const response = await fetch(`http://localhost:3000/api/events/${eventId}`);
+    const response = await fetch(`http://13.203.105.12:3000/api/events/${eventId}`);
     const data = await response.json();
     currentEvent = data.event || data;
     
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/api/bookings', {
+      const response = await fetch('http://13.203.105.12:3000/api/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

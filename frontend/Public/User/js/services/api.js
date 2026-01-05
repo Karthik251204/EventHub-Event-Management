@@ -1,5 +1,5 @@
 // API Configuration - dynamically set for any deployment
-const API_URL = `${window.location.protocol}//${window.location.hostname}:3000/api`;
+const API_URL = `http://13.203.105.12:3000/api`;
 
 // Helper function to get JWT token
 function getToken() {

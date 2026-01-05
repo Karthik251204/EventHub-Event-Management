@@ -78,7 +78,7 @@ function logout() {
   localStorage.removeItem(CONFIG.STORAGE.TOKEN);
   localStorage.removeItem(CONFIG.STORAGE.USER);
   // Redirect to home page on port 8001
-  window.location.href = 'http://localhost:8001/index.html';
+  window.location.href = 'http://13.203.105.12:8001/index.html';
 }
 
 document.addEventListener('DOMContentLoaded', renderNavbar);document.addEventListener('DOMContentLoaded', renderNavbar);
