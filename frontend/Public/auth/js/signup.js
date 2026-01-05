@@ -23,6 +23,10 @@ form.addEventListener('submit', async (e) => {
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
 
+  // Debug: Log the actual values being sent
+  console.log('Signup data:', { name, mobile, role, email, password });
+  console.log('Email being sent:', email);
+
   // Validate passwords match
   if (password !== confirmPassword) {
     Toast.error('Passwords do not match.');
