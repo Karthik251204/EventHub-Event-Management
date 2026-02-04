@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function loadEvent() {
     try {
-      const response = await fetch(`http://13.203.105.12:3000/api/events/${eventId}`);
+      const response = await fetch(`${CONFIG.API.BASE_URL}/events/${eventId}`);
       const data = await response.json();
       currentEvent = data.event || data;
       console.log('Event data:', currentEvent);
@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       let imageUrl = 'https://via.placeholder.com/600x400?text=No+Image';
       if (currentEvent.image_url) {
         if (!currentEvent.image_url.startsWith('http')) {
-          imageUrl = `http://13.203.105.12:3000${currentEvent.image_url}`;
+          // Use API base URL host for images
+          const base = CONFIG.API.BASE_URL.replace(/\/api$/, '');
+          imageUrl = `${base}${currentEvent.image_url}`;
         } else {
           imageUrl = currentEvent.image_url;
         }

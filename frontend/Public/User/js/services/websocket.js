@@ -3,7 +3,10 @@ import { io } from 'https://cdn.socket.io/4.7.2/socket.io.esm.min.js';
 let socket;
 
 export function connectWebSocket() {
-  socket = io('http://13.203.105.12:3000');
+  // Connect to backend WebSocket server using same host as API
+  const apiBase = CONFIG.API.BASE_URL || 'http://3.110.40.57:3000/api';
+  const wsBase = apiBase.replace(/\/api$/, '');
+  socket = io(wsBase);
   return socket;
 }
 

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     // Try API if no local data
     try {
-      const response = await fetch(`http://13.203.105.12:3000/api/bookings/${bookingId}`, {
+      const response = await fetch(`${CONFIG.API.BASE_URL}/bookings/${bookingId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem(CONFIG.STORAGE.TOKEN)}`
         }

@@ -76,7 +76,8 @@ function viewProfile() {
 function logout() {
   localStorage.removeItem(CONFIG.STORAGE.TOKEN);
   localStorage.removeItem(CONFIG.STORAGE.USER);
-  window.location.href = 'http://13.203.105.12:8001/';
+  // Redirect to local admin home
+  window.location.href = '/Public/Admin/pages/index.html';
 }
 
 document.addEventListener('DOMContentLoaded', renderNavbar);

@@ -1,5 +1,5 @@
-// API Configuration - dynamically set for any deployment
-const API_URL = `http://13.203.105.12:3000/api`;
+// API Configuration - use global CONFIG so it can switch between localhost and EC2 easily
+const API_URL = CONFIG?.API?.BASE_URL || `http://localhost:3000/api`;
 
 // Helper function to get JWT token
 function getToken() {
