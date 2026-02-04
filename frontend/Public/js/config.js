@@ -6,8 +6,12 @@
 
 const CONFIG = {
   // API Configuration
+  // NOTE:
+  // - Frontend and backend both run on localhost
+  // - Only the PostgreSQL database is on the EC2 server
+  //   (configured via DATABASE_URL in the backend .env)
   API: {
-    BASE_URL: `http://13.203.105.12:3000/api`,
+    BASE_URL: `http://localhost:3000/api`,
     ENDPOINTS: {
       AUTH: '/auth',
       EVENTS: '/events',
@@ -40,14 +44,14 @@ const CONFIG = {
 
   // Pages
   PAGES: {
-    HOME: './index.html',
-    LOGIN: './Public/auth/pages/login.html',
-    SIGNUP: './Public/auth/pages/signup.html',
-    DASHBOARD: './Public/User/pages/index.html',
-    EVENTS: './Public/User/pages/index.html',
-    EVENT_DETAIL: './Public/User/pages/event-detail.html',
-    ADMIN: './Public/Admin/pages/index.html',
-    CHECKIN: './Public/User/pages/checkin.html'
+    HOME: '/index.html',
+    LOGIN: '/Public/auth/pages/login.html',
+    SIGNUP: '/Public/auth/pages/signup.html',
+    DASHBOARD: '/Public/User/pages/index.html',
+    EVENTS: '/Public/User/pages/index.html',
+    EVENT_DETAIL: '/Public/User/pages/event-detail.html',
+    ADMIN: '/Public/Admin/pages/index.html',
+    CHECKIN: '/Public/User/pages/checkin.html'
   },
 
   // Messages

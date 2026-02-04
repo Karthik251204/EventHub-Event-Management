@@ -20,17 +20,13 @@ const eventsRouter = require('./routes/events');
 const bookingsRouter = require('./routes/bookings');
 const paymentsRouter = require('./routes/payments');
 
-// CORS configuration - allow frontend from port 8001
+// CORS configuration - allow frontend from port 8080
 const corsOptions = {
   origin: [
-    'http://13.203.105.12',
-    'http://13.203.105.12:80',
-    'http://13.203.105.12:8001',
-    'http://13.203.105.12:8080',
-    'http://localhost:8001',
     'http://localhost:8080',
-    'http://127.0.0.1:8001',
-    'http://127.0.0.1:8080'
+    'http://127.0.0.1:8080',
+    'http://localhost:8001',
+    'http://127.0.0.1:8001'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -73,28 +69,17 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server running at http://13.203.105.12:${PORT}`);
-  console.log(`📚 API Documentation:`);
+app.listen(PORT, () => {
+  console.log(`✅ Backend API Server running at http://localhost:${PORT}`);
+  console.log(`🌐 Frontend should run at http://localhost:8080`);
+  console.log(`📚 API Endpoints:`);
   console.log(`   POST /api/auth/signup - Register new user`);
   console.log(`   POST /api/auth/login - Login user`);
-  console.log(`   GET  /api/auth/profile - Get user profile (protected)`);
-  console.log(`   POST /api/auth/send-otp - Send OTP to mobile`);
+  console.log(`   GET  /api/auth/profile - Get user profile`);
   console.log(`   GET  /api/events - List all events`);
-  console.log(`   POST /api/events - Create event (organizer)`);
-  console.log(`   GET  /api/events/:id - Get event details`);
-  console.log(`   PUT  /api/events/:id - Update event (organizer)`);
-  console.log(`   DELETE /api/events/:id - Delete event (organizer)`);
+  console.log(`   POST /api/events - Create event`);
   console.log(`   POST /api/bookings - Create booking`);
   console.log(`   GET  /api/bookings - Get user bookings`);
-  console.log(`   GET  /api/bookings/:id - Get booking details`);
-  console.log(`   PUT  /api/bookings/:id/cancel - Cancel booking`);
-  console.log(`   POST /api/bookings/:id/checkin - Check in to event`);
-  console.log(`   GET  /api/bookings/:id/checkins - Get check-ins for booking`);
-  console.log(`   POST /api/payments - Record payment`);
-  console.log(`   GET  /api/payments - Get payment history`);
-  console.log(`   POST /api/payments/organizer/details - Set organizer bank details`);
-  console.log(`   GET  /api/payments/organizer/details - Get organizer bank details`);
 });
 
 
