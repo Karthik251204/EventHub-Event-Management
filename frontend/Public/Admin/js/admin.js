@@ -91,11 +91,11 @@ if (form) {
       let response;
       
       if (eventId) {
-        // Handle update - only price, capacity, and description
+        // Handle update - only price, time, and capacity
         const formData = new FormData();
         formData.append('ticket_price', Number(priceInput.value));
+        formData.append('event_date', dateInput.value);
         formData.append('total_seats', Number(capacityInput.value));
-        formData.append('description', descriptionInput ? descriptionInput.value.trim() : '');
         
         response = await api.updateEvent(eventId, formData);
         Toast.success('Event updated successfully!');
@@ -164,6 +164,14 @@ function prefillFromQuery() {
   idInput.value = ev.id;
   priceInput.value = ev.ticket_price;
   capacityInput.value = ev.total_seats;
+  
+  if (dateInput && ev.event_date) {
+    // Format date for datetime-local input (YYYY-MM-DDTHH:MM)
+    const d = new Date(ev.event_date);
+    const localIso = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+    dateInput.value = localIso;
+  }
+  
   if (descriptionInput) descriptionInput.value = ev.description || '';
 }
 

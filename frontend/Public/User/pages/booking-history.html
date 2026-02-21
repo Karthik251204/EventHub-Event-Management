@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings - EventHub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #ec4899;
+      --accent: #f59e0b;
+      --dark: #1f2937;
+      --light: #f9fafb;
+      --success: #10b981;
+      --danger: #ef4444;
+      --nav-height: 70px;
+      --gray: #6b7280;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+      background: #f4f7fa;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* Navbar (Consistent with Home) */
+    .navbar {
+      height: var(--nav-height);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo i { color: var(--secondary); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+
+    /* Page Header */
+    .page-header {
+      background: white;
+      padding: 3rem 0;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 2rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page-title h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    /* Tabs */
+    .booking-tabs {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .tab {
+      padding: 1rem 0;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--gray);
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .tab.active {
+      color: var(--primary);
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    /* Booking Cards */
+    .booking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .booking-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      border: 1px solid #e5e7eb;
+      transition: transform 0.2s;
+    }
+
+    .booking-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .event-img {
+      width: 240px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .booking-details {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .booking-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .status-badge {
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status-confirmed { background: #ecfdf5; color: var(--success); }
+    .status-pending { background: #fffbeb; color: var(--accent); }
+    .status-past { background: #f3f4f6; color: var(--gray); }
+
+    .event-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-meta {
+      display: flex;
+      gap: 1.5rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .event-meta i { margin-right: 0.5rem; color: var(--primary); }
+
+    .booking-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    .ticket-id {
+      font-family: monospace;
+      background: #f3f4f6;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .btn-outline {
+      border: 1px solid #e5e7eb;
+      color: var(--dark);
+      background: white;
+    }
+
+    .btn-outline:hover {
+      background: #f9fafb;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover { background: #4f46e5; }
+
+    @media (max-width: 768px) {
+      .booking-card { flex-direction: column; }
+      .event-img { width: 100%; height: 180px; }
+      .header-flex { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-bolt"></i> Event<span>Hub</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="dashboard.html#events">Events</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="booking.html" class="active">My Bookings</a></li>
+    </ul>
+    <div class="nav-auth">
+      <button onclick="window.location.href='profile.html'" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">Profile</button>
+      <button onclick="history.back()" class="btn btn-primary" style="padding: 0.5rem 1.5rem; margin-left: 1rem;">Back</button>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="header-flex">
+        <div class="page-title">
+          <h1>Booking History</h1>
+          <p style="color: var(--gray);">Manage your tickets and upcoming experiences</p>
+        </div>
+      </div>
+
+      <div class="booking-tabs">
+        <div class="tab active" onclick="filterBookings('all')">All Bookings</div>
+        <div class="tab" onclick="filterBookings('upcoming')">Upcoming</div>
+        <div class="tab" onclick="filterBookings('past')">Past Events</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Bookings List -->
+  <main class="container">
+    <div class="booking-list" id="bookingContainer">
+      <!-- Bookings will be loaded here dynamically -->
+      <p style="text-align: center; color: #6b7280;">Loading...</p>
+    </div>
+  </main>
+
+  <footer style="background: var(--dark); color: white; padding: 3rem 0; text-align: center; margin-top: 4rem;">
+    <div class="container">
+      <a href="index.html" class="logo" style="justify-content: center; margin-bottom: 1rem; color: white;">
+        <i class="fas fa-bolt" style="color: var(--secondary);"></i> Event<span>Hub</span>
+      </a>
+      <p style="opacity: 0.6;">© 2026 EventHub Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/components/Navbar.js"></script>
+  <script src="../js/pages/booking-history.js"></script>
+</body>
+</html>

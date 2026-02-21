@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizer Dashboard - EventHub</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --primary: #6366f1; --secondary: #ec4899; --accent: #f59e0b;
+      --dark: #1f2937; --light: #f9fafb; --success: #10b981; --danger: #ef4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: var(--dark); }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 1rem; }
+
+    /* Header */
+    .header { background: white; border-bottom: 2px solid #e5e7eb; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .header-content { display: flex; justify-content: space-between; align-items: center; }
+    .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon-box { background: var(--primary); padding: 8px; border-radius: 10px; display: flex; }
+    .logo-text { font-size: 1.8rem; font-weight: 800; }
+    .logo-text span { color: var(--primary); }
+
+    .header-nav { display: flex; gap: 2rem; align-items: center; }
+    .header-nav a { color: var(--dark); text-decoration: none; font-weight: 500; cursor: pointer; }
+    
+    .user-menu { position: relative; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .user-info-top { text-align: right; line-height: 1.2; }
+    .user-info-top .name { display: block; font-weight: 700; font-size: 0.9rem; }
+    .user-info-top .role { display: block; font-size: 0.75rem; color: #6b7280; }
+    .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+
+    /* Dropdown */
+    .profile-dropdown { position: absolute; top: 50px; right: 0; background: white; width: 220px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; display: none; flex-direction: column; padding: 0.5rem; z-index: 1000; }
+    .profile-dropdown.active { display: flex; }
+    .dropdown-header { padding: 0.8rem 1rem; border-bottom: 1px solid #f3f4f6; margin-bottom: 0.5rem; }
+    .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 0.7rem 1rem; text-decoration: none; color: var(--dark); font-size: 0.9rem; border-radius: 8px; border: none; background: none; width: 100%; text-align: left; cursor: pointer; }
+    .dropdown-item:hover { background: #f3f4f6; }
+
+    /* Layout */
+    .main-content { display: grid; grid-template-columns: 250px 1fr; gap: 2rem; padding: 2rem 0; }
+    .sidebar { background: white; border-radius: 12px; padding: 1.5rem; height: fit-content; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .sidebar-menu { list-style: none; }
+    .sidebar-menu li { margin-bottom: 0.5rem; }
+    .sidebar-menu a { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; border-radius: 8px; color: var(--dark); text-decoration: none; cursor: pointer; transition: 0.3s; }
+    .sidebar-menu a:hover, .sidebar-menu a.active { background: #f3e8ff; color: var(--primary); font-weight: 600; }
+
+    /* Sections */
+    .section { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: none; }
+    .section.active { display: block; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #f3f4f6; padding-bottom: 1rem; }
+
+    /* Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .stat-card { background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #f3f4f6; display: flex; align-items: center; gap: 1rem; }
+    .stat-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; }
+
+    /* Forms */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; }
+    .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary { background: var(--primary); color: white; }
+
+    /* Event List (Editable Format) */
+    .event-card { display: flex; gap: 1.5rem; padding: 1.2rem; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 1rem; align-items: center; }
+    .event-card img { width: 150px; height: 100px; border-radius: 8px; object-fit: cover; }
+    .event-details { flex: 1; }
+    .event-actions { display: flex; gap: 0.5rem; }
+    .btn-edit { background: #e0e7ff; color: var(--primary); }
+    .btn-delete { background: #fee2e2; color: var(--danger); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo-wrap">
+        <div class="logo-icon-box"><i data-lucide="calendar-days" color="white"></i></div>
+        <div class="logo-text">Event<span>Hub</span></div>
+      </div>
+      <nav class="header-nav">
+        <a onclick="showSection('events')">My Events</a>
+        <a onclick="showSection('create')">Create Event</a>
+        <div class="user-menu" onclick="toggleDropdown()">
+          <div class="user-info-top">
+            <span class="name" id="top-username">Loading...</span>
+            <span class="role" id="top-email">...</span>
+          </div>
+          <div class="user-avatar" id="user-initials">U</div>
+          <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-header">
+              <span class="u-name" id="drop-username">User Name</span>
+              <span class="u-email" id="drop-email">user@example.com</span>
+            </div>
+            <button class="dropdown-item" onclick="showSection('profile')"><i data-lucide="user"></i> Profile</button>
+            <button class="dropdown-item" onclick="logout()" style="color:var(--danger)"><i data-lucide="log-out"></i> Logout</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="main-content">
+      <aside class="sidebar">
+        <ul class="sidebar-menu">
+          <li><a onclick="showSection('dashboard')" id="nav-dashboard" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+          <li><a onclick="showSection('events')" id="nav-events"><i data-lucide="calendar"></i> My Events</a></li>
+          <li><a onclick="showSection('create')" id="nav-create"><i data-lucide="plus-circle"></i> Create Event</a></li>
+          <li><a onclick="showSection('bookings')" id="nav-bookings"><i data-lucide="ticket"></i> Bookings</a></li>
+          <li><a onclick="showSection('earnings')" id="nav-earnings"><i data-lucide="indian-rupee"></i> Earnings</a></li>
+          <li><a onclick="showSection('messages')" id="nav-messages"><i data-lucide="message-square"></i> Messages</a></li>
+        </ul>
+      </aside>
+
+      <div class="dashboard-content">
+        <!-- Dashboard -->
+        <section id="dashboard-section" class="section active">
+          <h2>Dashboard Overview</h2>
+          <div class="stats-grid" style="margin-top:1.5rem">
+            <div class="stat-card"><div class="stat-icon" style="background:var(--primary)"><i data-lucide="calendar"></i></div><div><p>Total Events</p><h3 id="stat-events">0</h3></div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:var(--success)"><i data-lucide="indian-rupee"></i></div><div><p>Revenue</p><h3>₹0</h3></div></div>
+          </div>
+        </section>
+
+        <!-- My Events (Edit Format) -->
+        <section id="events-section" class="section">
+          <div class="section-header">
+            <h2>My Events</h2>
+            <button class="btn btn-primary" onclick="showSection('create')">Create New</button>
+          </div>
+          <div id="events-list-container">
+            <p>Loading your events...</p>
+          </div>
+        </section>
+
+        <!-- Create/Edit Event -->
+        <section id="create-section" class="section">
+          <h2 id="form-title">Create New Event</h2>
+          <form id="event-form" style="margin-top:1.5rem">
+            <input type="hidden" id="edit-event-id">
+            <div class="form-grid">
+              <div class="form-group"><label>Event Title</label><input type="text" id="ev-title" required></div>
+              <div class="form-group"><label>Category</label><input type="text" id="ev-cat" placeholder="e.g. Concert, Tech, Workshop" required></div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group"><label>Date</label><input type="datetime-local" id="ev-date" required></div>
+              <div class="form-group"><label>Location</label><input type="text" id="ev-loc" required></div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group"><label>Price (₹)</label><input type="number" id="ev-price" required></div>
+              <div class="form-group"><label>Seats</label><input type="number" id="ev-seats" required></div>
+            </div>
+            <div class="form-group"><label>Description</label><textarea id="ev-desc" rows="3"></textarea></div>
+            <div class="form-group">
+              <label>Upload Images</label>
+              <input type="file" id="ev-files" multiple accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary" id="save-btn">Save Event</button>
+          </form>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="section">
+          <h2>My Profile</h2>
+          <div class="form-grid" style="margin-top:1.5rem">
+            <div class="form-group"><label>Name</label><input type="text" id="prof-name" readonly></div>
+            <div class="form-group"><label>Email</label><input type="email" id="prof-email" readonly></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label>Mobile</label><input type="text" id="prof-mobile" readonly></div>
+            <div class="form-group"><label>Role</label><input type="text" id="prof-role" readonly></div>
+          </div>
+        </section>
+
+        <!-- Other Sections -->
+        <section id="bookings-section" class="section"><h2>Bookings</h2><p>Manage your ticket sales here.</p></section>
+        <section id="earnings-section" class="section"><h2>Earnings</h2><p>Your total revenue: ₹0</p></section>
+        <section id="messages-section" class="section"><h2>Messages</h2><p>No new messages from attendees.</p></section>
+      </div>
+    </div>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,89 +1,132 @@
-import { getUser, updateUser } from '../services/auth.js';
-// Import Toast class from toast.js
-// Note: Using relative path to User components directory
-import '../components/toast.js';
+const API_BASE = 'http://localhost:3000/api';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  // Table elements
-  const userNameEl = document.getElementById('user-name');
-  const userCategoryEl = document.getElementById('user-category');
-  const userMobileEl = document.getElementById('user-mobile');
-  const userEmailEl = document.getElementById('user-email');
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Profile Page Loaded. Fetching data...");
+    fetchUserProfile();
+    setupUpdateForm();
+});
 
-  // Form elements
-  const updateForm = document.getElementById('update-form');
-  const mobileInput = document.getElementById('mobile');
-  const emailInput = document.getElementById('email');
-
-  // Check if user is logged in
-  const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
-  if (!token) {
-    console.warn('No authentication token found');
-    Toast.error('You must be logged in to view this page.');
-    setTimeout(() => {
-      // Redirect to local login page
-      window.location.href = '/Public/auth/pages/login.html';
-    }, 1500);
-    return;
-  }
-
-  // Fetch and display user data
-  try {
-    console.log('Fetching user profile...');
-    const user = await getUser();
-    console.log('User data received:', user);
+// 1. Fetch User Details from Database
+async function fetchUserProfile() {
+    const token = localStorage.getItem('token') || 
+                  localStorage.getItem('authToken') || 
+                  localStorage.getItem('eventhub_token') ||
+                  localStorage.getItem('auth_token') ||
+                  (typeof CONFIG !== 'undefined' && CONFIG.STORAGE ? localStorage.getItem(CONFIG.STORAGE.TOKEN) : null);
     
-    if (user) {
-      // Populate the table
-      userNameEl.textContent = user.name || 'N/A';
-      userCategoryEl.textContent = user.role || 'N/A';
-      userMobileEl.textContent = user.mobile || 'N/A';
-      userEmailEl.textContent = user.email || 'N/A';
-
-      // Populate the form
-      mobileInput.value = user.mobile || '';
-      emailInput.value = user.email || '';
-    } else {
-      console.warn('No user data returned');
-      Toast.error('Could not load user information.');
-      setTimeout(() => {
-        window.location.href = '/Public/auth/pages/login.html';
-      }, 1500);
+    if (!token || token === 'null' || token === 'undefined') {
+        console.error("No token found in localStorage");
+        window.location.href = '/Public/auth/pages/login.html'; 
+        return;
     }
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    Toast.error(`Error: ${error.message}`);
-    setTimeout(() => {
-      window.location.href = '/Public/auth/pages/login.html';
-    }, 1500);
-  }
-
-  // Handle profile update
-  updateForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const updatedData = {
-      mobile: mobileInput.value,
-      email: emailInput.value,
-    };
 
     try {
-      const updatedUser = await updateUser(updatedData);
-      Toast.success('Profile updated successfully!');
+        const response = await fetch(`${API_BASE}/auth/profile`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
 
-      // Update the table with the new data
-      userNameEl.textContent = updatedUser.name || 'N/A';
-      userCategoryEl.textContent = updatedUser.role || 'N/A';
-      userMobileEl.textContent = updatedUser.mobile || 'N/A';
-      userEmailEl.textContent = updatedUser.email || 'N/A';
+        console.log("Response Status:", response.status);
 
-      // Update form values
-      mobileInput.value = updatedUser.mobile || '';
-      emailInput.value = updatedUser.email || '';
-      
+        if (response.ok) {
+            const user = await response.json();
+            console.log("User Data Received:", user); // Check your console (F12) to see the keys
+
+            // Update the UI Text (Display)
+            // Added fallbacks in case your backend uses different names like 'name' or 'full_name'
+            document.getElementById('user-name').textContent = user.username || user.name || user.full_name || 'N/A';
+            document.getElementById('user-mobile').textContent = user.mobile || user.phone || 'Not set';
+            document.getElementById('user-email').textContent = user.email || 'N/A';
+            document.getElementById('user-category').textContent = user.role || 'User';
+
+            // Pre-fill the Form Inputs
+            document.getElementById('mobile').value = user.mobile || user.phone || '';
+            document.getElementById('email').value = user.email || '';
+            
+            lucide.createIcons();
+        } else {
+            try {
+                const errorData = await response.json();
+                console.error("Backend Error:", errorData);
+            } catch (e) {
+                console.error("Backend Error (Non-JSON):", response.status, response.statusText);
+            }
+            // If unauthorized, go back to login
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('token');
+                window.location.href = '/Public/auth/pages/login.html';
+            }
+        }
     } catch (error) {
-      console.error('Error updating profile:', error);
-      Toast.error(`Failed to update profile: ${error.message}`);
+        console.error("Connection Error:", error);
+        document.getElementById('user-category').textContent = "OFFLINE";
+        showModal("Connection Error", "Could not connect to the backend server at " + API_BASE);
     }
-  });
-});
+}
+
+// 2. Handle Profile Update
+function setupUpdateForm() {
+    const form = document.getElementById('update-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token') || 
+                      localStorage.getItem('authToken') || 
+                      localStorage.getItem('eventhub_token') ||
+                      localStorage.getItem('auth_token') ||
+                      (typeof CONFIG !== 'undefined' && CONFIG.STORAGE ? localStorage.getItem(CONFIG.STORAGE.TOKEN) : null);
+        
+        const updatedData = {
+            mobile: document.getElementById('mobile').value,
+            email: document.getElementById('email').value
+        };
+
+        try {
+            const response = await fetch(`${API_BASE}/auth/update-profile`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+            });
+
+            if (response.ok) {
+                showModal("Success", "Your profile has been updated successfully.");
+                fetchUserProfile(); 
+            } else {
+                let errorMsg = "Something went wrong.";
+                try {
+                    const error = await response.json();
+                    errorMsg = error.message || errorMsg;
+                } catch (e) {
+                    errorMsg = `Server Error: ${response.status}`;
+                }
+                showModal("Update Failed", errorMsg);
+            }
+        } catch (error) {
+            showModal("Error", "Connection lost. Please try again.");
+        }
+    });
+}
+
+// 3. Modal Helper
+function showModal(title, message) {
+    const modal = document.getElementById('modal');
+    if (!modal) {
+        alert(title + ": " + message);
+        return;
+    }
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    
+    modal.style.display = 'flex';
+    
+    document.getElementById('modal-confirm').onclick = () => {
+        modal.style.display = 'none';
+    };
+}

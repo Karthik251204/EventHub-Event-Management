@@ -6,13 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const eventsContainer = document.getElementById('events-container');
   const searchInput = document.getElementById('search-input');
   const loadMoreBtn = document.getElementById('load-more-btn');
-  const profileButton = document.querySelector('.nav-actions .btn-primary');
-
-  if (profileButton) {
-    profileButton.addEventListener('click', () => {
-      window.location.href = 'profile.html';
-    });
-  }
 
   let currentPage = 1;
   const limit = 3;

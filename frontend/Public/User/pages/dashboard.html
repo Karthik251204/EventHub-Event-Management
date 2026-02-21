@@ -1,30 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - EventHub</title>
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/pages.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventHub - Discover Events</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #ec4899;
+      --accent: #f59e0b;
+      --dark: #1f2937;
+      --light: #f9fafb;
+      --success: #10b981;
+      --danger: #ef4444;
+      --nav-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      height: var(--nav-height);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo i {
+      color: var(--secondary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 600px;
+      background: #2d3748;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      /* Updated Background Image: Vibrant Concert/Event */
+      background: url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+      opacity: 0;
+      animation: fadeInImage 1.2s ease-in forwards;
+      z-index: 1;
+    }
+
+    @keyframes fadeInImage {
+      from { opacity: 0; }
+      to { opacity: 0.4; }
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(31, 41, 55, 0.4), rgba(31, 41, 55, 0.8));
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      color: white;
+      max-width: 800px;
+      padding: 0 1rem;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .hero p {
+      font-size: 1.4rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Featured Cards */
+    .featured-sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 4rem 1rem;
+      margin-top: -80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      background: white;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 25px 50px rgba(99, 102, 241, 0.2);
+    }
+
+    .feature-card i {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      background: #f5f3ff;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+
+    /* Filters & Grid */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .filter-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      margin: 2rem 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1.2rem;
+      border: 2px solid #f3f4f6;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .filter-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.8rem 2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #4f46e5;
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--dark);
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .event-img-placeholder {
+      height: 200px;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+    }
+
+    .event-info {
+      padding: 1.5rem;
+    }
+  </style>
 </head>
 <body>
-  <nav id="navbar"></nav>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-bolt"></i> Event<span>Hub</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
 
-  <main class="container">
-    <h1>Dashboard</h1>
+      <li><a href="#events">Events</a></li>
+      <li><a href="booking-history.html">My Bookings</a></li>
+    </ul>
+    <div class="nav-auth">
+      <button onclick="window.location.href='profile.html'" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">Profile</button>
+      <button id="logout-btn" class="btn btn-primary" style="padding: 0.5rem 1.5rem; margin-left: 1rem;">Logout</button>
+    </div>
+  </nav>
 
-    <section class="dashboard-stats" id="stats">
-      <!-- Revenue, registrations, no-show%, bookings summary -->
-    </section>
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Experience Life's Best Moments</h1>
+      <p>Your gateway to the most exclusive tech conferences, music festivals, and workshops around the globe.</p>
+      <div class="hero-actions">
+        <a href="#events" class="btn btn-primary">Explore Events</a>
+        <a href="dashboard.html" class="btn btn-secondary">Manage My Events</a>
+      </div>
+    </div>
+  </header>
 
-    <section id="bookings-list">
-      <!-- User bookings or organizer event summary -->
-    </section>
+  <!-- Featured Quick Links -->
+  <section class="container">
+    <div class="featured-sections">
+      <div class="feature-card" onclick="document.getElementById('events').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-search"></i>
+        <h3>Find Events</h3>
+        <p>Discover trending events happening near you right now.</p>
+      </div>
+      <div class="feature-card" onclick="window.location.href='booking.html'">
+        <i class="fas fa-ticket-alt" style="color: var(--secondary)"></i>
+        <h3>My Tickets</h3>
+        <p>Access your digital passes and booking history instantly.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-headset" style="color: var(--accent)"></i>
+        <h3>24/7 Support</h3>
+        <p>Need help? Our team is here to assist with your bookings.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" id="events">
+    <div class="filter-section">
+      <div class="filter-controls">
+        <select class="btn" style="background: #f3f4f6; color: var(--dark); text-align: left;">
+          <option>All Categories</option>
+          <option>Music</option>
+          <option>Tech</option>
+          <option>Sports</option>
+        </select>
+        <select class="btn" style="background: #f3f4f6; color: var(--dark); text-align: left;">
+          <option>This Weekend</option>
+          <option>Next Week</option>
+          <option>Next Month</option>
+        </select>
+        <button class="btn btn-primary">Apply Filters</button>
+      </div>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search by event name, artist, or venue..." style="margin-top: 1.5rem; margin-bottom: 0;">
+    </div>
+
+    <div class="events-grid" id="events-grid">
+      <!-- Mock Event Card 1 -->
+      <div class="event-card">
+        <div class="event-img-placeholder" style="background: url('https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?w=500&q=80') center/cover;"></div>
+        <div class="event-info">
+          <span style="color: var(--secondary); font-size: 0.8rem; font-weight: bold; text-transform: uppercase;">Tech Conference</span>
+          <h3 style="margin: 0.5rem 0;">Global AI Summit 2024</h3>
+          <p style="color: #6b7280; font-size: 0.9rem;"><i class="fas fa-map-marker-alt"></i> San Francisco, CA</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+            <span style="font-weight: 800; color: var(--primary); font-size: 1.2rem;">$299</span>
+            <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mock Event Card 2 -->
+      <div class="event-card">
+        <div class="event-img-placeholder" style="background: url('https://images.unsplash.com/photo-1459749411177-042180ce673c?w=500&q=80') center/cover;"></div>
+        <div class="event-info">
+          <span style="color: var(--secondary); font-size: 0.8rem; font-weight: bold; text-transform: uppercase;">Music</span>
+          <h3 style="margin: 0.5rem 0;">Neon Dreams Festival</h3>
+          <p style="color: #6b7280; font-size: 0.9rem;"><i class="fas fa-map-marker-alt"></i> Austin, TX</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+            <span style="font-weight: 800; color: var(--primary); font-size: 1.2rem;">$89</span>
+            <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mock Event Card 3 -->
+      <div class="event-card">
+        <div class="event-img-placeholder" style="background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&q=80') center/cover;"></div>
+        <div class="event-info">
+          <span style="color: var(--secondary); font-size: 0.8rem; font-weight: bold; text-transform: uppercase;">Workshop</span>
+          <h3 style="margin: 0.5rem 0;">Mastering UI Design</h3>
+          <p style="color: #6b7280; font-size: 0.9rem;"><i class="fas fa-map-marker-alt"></i> Remote (Online)</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+            <span style="font-weight: 800; color: var(--primary); font-size: 1.2rem;">Free</span>
+            <a href="#" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Register</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
-  <script src="../js/services/api.js"></script>
-  <script src="../js/components/Navbar.js"></script>
-  <script src="../js/pages/Dashboard.js"></script>
+  <footer style="background: var(--dark); color: white; padding: 4rem 0; text-align: center;">
+    <div class="container">
+      <a href="#" class="logo" style="justify-content: center; margin-bottom: 1rem; color: white;">
+        <i class="fas fa-bolt" style="color: var(--secondary);"></i> Event<span>Hub</span>
+      </a>
+      <p style="opacity: 0.6;">© 2026 EventHub Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/pages/dashboard.js"></script>
+
+  <script>
+    // Navigation Logic
+    function openChatWithSupport() {
+      alert("Connecting to live support...");
+    }
+    
+    // Smooth Scroll for "Browse Events"
+    document.querySelector('.btn-primary[href="#events"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector('#events').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Logout Functionality
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('eventhub_token');
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      window.location.href = '/index.html';
+    });
+  </script>
 </body>
 </html>

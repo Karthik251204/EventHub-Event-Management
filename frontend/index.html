@@ -5,6 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EventHub - Discover Amazing Events</title>
   <link rel="stylesheet" href="./Public/css/home.css" />
+  <style>
+    /* CSS for the background scrolling effect */
+    .section {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* Container for the sliding images */
+    .bg-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Places images behind your content */
+    }
+
+    .bg-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: imageFade 12s linear infinite;
+    }
+
+    /* Animation for cross-fading 3 images */
+    @keyframes imageFade {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      33% { opacity: 1; }
+      43% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* Staggering the start time for each image */
+    .bg-slide:nth-child(1) { animation-delay: 0s; }
+    .bg-slide:nth-child(2) { animation-delay: 4s; }
+    .bg-slide:nth-child(3) { animation-delay: 8s; }
+
+    /* Ensure content stays visible */
+    .container, .hero-overlay {
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Dark overlay to make text readable over HD images */
+    .hero-overlay {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  </style>
 </head>
 <body>
   <header class="home-header">
@@ -17,8 +72,13 @@
     </div>
   </header>
 
-  <!-- Hero Section with Background -->
+  <!-- Hero Section with Scrolling Background -->
   <section class="section hero-section" id="top">
+    <div class="bg-slider">
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920')"></div>
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1920')"></div>
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=1920')"></div>
+    </div>
     <div class="hero-overlay"></div>
     <div class="hero-content container">
       <h1>Are you ready to jump into a vibe society with interesting events?</h1>
@@ -32,8 +92,14 @@
     <button class="scroll-down" id="scroll-about">↓</button>
   </section>
 
-  <!-- About Us Section -->
+  <!-- About Us Section with Scrolling Background -->
   <section class="section about-section" id="about">
+    <div class="bg-slider">
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1540575861501-7c91211c889d?q=80&w=1920')"></div>
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1920')"></div>
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1920')"></div>
+    </div>
+    <div class="hero-overlay"></div>
     <div class="container">
       <h2>About EventHub</h2>
       <p>
@@ -64,12 +130,17 @@
       </div>
     </div>
 
-    <!-- Arrow to Contact Us -->
     <button class="scroll-down about-scroll" id="scroll-contact">↓</button>
   </section>
 
-  <!-- Contact Us Section -->
+  <!-- Contact Us Section with Scrolling Background -->
   <section class="section contact-section" id="contact">
+    <div class="bg-slider">
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?q=80&w=1920')"></div>
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1516387933999-ed3347c13934?q=80&w=1920')"></div>
+      <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=1920')"></div>
+    </div>
+    <div class="hero-overlay"></div>
     <div class="container">
       <h2>Get In Touch</h2>
       <p>Have questions or ideas? Reach out to our team.</p>
@@ -90,7 +161,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p>&copy; 2025 EventHub. All rights reserved.</p>
@@ -98,7 +168,6 @@
     </div>
   </footer>
 
-  <!-- Load page logic only (no dependencies needed for home page) -->
   <script src="./Public/js/home.js"></script>
 </body>
 </html>

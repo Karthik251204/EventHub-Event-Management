@@ -1,5 +1,5 @@
 // Ensure services are loaded
-if (typeof auth === 'undefined' || typeof api === 'undefined') {
+if (typeof auth === 'undefined' || typeof Utils === 'undefined') {
   console.error('Services not loaded. Make sure config.js, utils.js, api.js, and auth.js are included before this script.');
 }
 
@@ -9,11 +9,21 @@ const confirmPasswordInput = document.getElementById('confirm-password');
 const errorMsg = document.getElementById('error-msg');
 const successMsg = document.getElementById('success-msg');
 
+// Back to login button listener
+const backBtn = form.querySelector('button[type="button"]');
+if (backBtn) {
+  backBtn.addEventListener('click', () => {
+    window.location.href = './login.html';
+  });
+}
+
 // Submit signup form
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  errorMsg.textContent = '';
-  successMsg.textContent = '';
+
+  // Clear previous messages
+  if (errorMsg) errorMsg.textContent = '';
+  if (successMsg) successMsg.textContent = '';
 
   // Get form values
   const name = document.getElementById('name').value.trim();
@@ -23,60 +33,58 @@ form.addEventListener('submit', async (e) => {
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
 
-  // Debug: Log the actual values being sent
-  console.log('Signup data:', { name, mobile, role, email, password });
-  console.log('Email being sent:', email);
+  console.log('📝 Signup form submitted');
+  console.log('Form data:', { name, mobile, role, email, password_length: password?.length });
 
-  // Validate passwords match
+  // --- Validations ---
   if (password !== confirmPassword) {
-    Toast.error('Passwords do not match.');
-    errorMsg.textContent = 'Passwords do not match.';
+    if (errorMsg) errorMsg.textContent = 'Passwords do not match.';
+    console.log('❌ Passwords do not match');
     return;
   }
 
-  // Validate password length
   if (!Utils.validatePassword(password)) {
-    Toast.error('Password must be at least 6 characters.');
-    errorMsg.textContent = 'Password must be at least 6 characters.';
+    if (errorMsg) errorMsg.textContent = 'Password must be at least 6 characters.';
+    console.log('❌ Password too short');
     return;
   }
 
-  // Validate email format
   if (!Utils.validateEmail(email)) {
-    Toast.error('Please enter a valid email address.');
-    errorMsg.textContent = 'Please enter a valid email address (e.g., user@example.com)';
+    if (errorMsg) errorMsg.textContent = 'Please enter a valid email address (e.g., user@example.com)';
+    console.log('❌ Invalid email');
     return;
   }
 
-  // Validate mobile format
   if (!Utils.validateMobile(mobile)) {
-    Toast.error('Please enter a valid 10-digit mobile number.');
-    errorMsg.textContent = 'Please enter a valid 10-digit mobile number';
+    if (errorMsg) errorMsg.textContent = 'Please enter a valid 10-digit mobile number';
+    console.log('❌ Invalid mobile');
     return;
   }
 
-  // Validate name
   if (!Utils.validateName(name)) {
-    Toast.error('Please enter a valid name (at least 2 characters).');
-    errorMsg.textContent = 'Please enter a valid name.';
+    if (errorMsg) errorMsg.textContent = 'Please enter a valid name.';
+    console.log('❌ Invalid name');
     return;
   }
 
-  // Validate role
   if (!role) {
-    Toast.error('Please select a role.');
-    errorMsg.textContent = 'Please select a role.';
+    if (errorMsg) errorMsg.textContent = 'Please select a role.';
+    console.log('❌ No role selected');
     return;
   }
 
-  try {
-    Utils.showLoading();
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Creating Account...';
+  console.log('✅ All validations passed');
 
-    // Use auth service to signup
+  // --- Disable button and show loading ---
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = 'Creating Account...';
+  Utils.showLoading();
+
+  // --- Call signup API ---
+  try {
+    console.log('🔄 Sending signup request to backend...');
     const response = await auth.signup({
       name,
       mobile,
@@ -86,26 +94,24 @@ form.addEventListener('submit', async (e) => {
       confirmPassword
     });
 
-    Utils.hideLoading();
-    successMsg.textContent = '✓ Account created successfully! Redirecting...';
+    console.log('✅ Signup response received:', response);
+    if (successMsg) successMsg.textContent = '✓ Account created successfully! Redirecting to login...';
 
+    // Redirect after 1.5s
     setTimeout(() => {
-      // Redirect based on role
-      if (auth.isOrganizer()) {
-        window.location.href = '../../Admin/pages/index.html';
-        // Utils.redirect(CONFIG.PAGES.ADMIN);
-      } else {
-        window.location.href = '../../User/pages/index.html';
-      }
-    }, 1000);
+      window.location.href = './login.html';
+    }, 1500);
 
   } catch (error) {
-    Utils.hideLoading();
-    const submitBtn = form.querySelector('button[type="submit"]');
+    console.error('❌ Signup failed:', error.message);
+    console.error('Error details:', error);
+    if (errorMsg) errorMsg.textContent = `Error: ${error.message}`;
+
+    // Re-enable button and reset text
     submitBtn.disabled = false;
-    submitBtn.textContent = 'Submit';
-    
-    errorMsg.textContent = `Error: ${error.message}`;
-    console.error('Signup error:', error);
+    submitBtn.textContent = originalText;
+
+  } finally {
+    Utils.hideLoading();
   }
 });

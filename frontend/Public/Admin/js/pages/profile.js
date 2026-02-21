@@ -13,9 +13,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   const mobileInput = document.getElementById('mobile');
   const emailInput = document.getElementById('email');
 
+  // API Base URL
+  const API_BASE = 'http://localhost:3000/api';
+
   // Check if user is logged in
-  const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
-  if (!token) {
+  const token = (typeof CONFIG !== 'undefined' && CONFIG.STORAGE) 
+    ? localStorage.getItem(CONFIG.STORAGE.TOKEN)
+    : (localStorage.getItem('token') || localStorage.getItem('authToken') || localStorage.getItem('eventhub_token') || localStorage.getItem('auth_token'));
+
+  if (!token || token === 'null' || token === 'undefined') {
     Toast.error('You must be logged in to view this page.');
     setTimeout(() => {
       window.location.href = '/';
@@ -25,11 +31,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Fetch and display user data
   try {
-    const user = auth.getCurrentUser();
-    
-    if (user) {
+    const response = await fetch(`${API_BASE}/auth/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const user = data.user || data; // Handle { user: ... } or { ... }
+
       // Populate the table
-      userNameEl.textContent = user.name || 'N/A';
+      // Backend returns 'username' for getProfile, but 'name' might be used elsewhere
+      userNameEl.textContent = user.username || user.name || 'N/A';
       userMobileEl.textContent = user.mobile || 'N/A';
       userEmailEl.textContent = user.email || 'N/A';
 
@@ -37,10 +53,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       mobileInput.value = user.mobile || '';
       emailInput.value = user.email || '';
     } else {
-      Toast.error('Could not load user information.');
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 1500);
+      if (response.status === 401) throw new Error('Session expired');
+      throw new Error('Could not load user information');
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
@@ -60,21 +74,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     try {
-      // For now, just update localStorage since there's no updateUser method
-      const currentUser = auth.getCurrentUser();
-      const updatedUser = { ...currentUser, ...updatedData };
-      localStorage.setItem(CONFIG.STORAGE.USER, JSON.stringify(updatedUser));
-      auth.user = updatedUser;
-      Toast.success('Profile updated successfully!');
+      const response = await fetch(`${API_BASE}/auth/update-profile`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+      });
 
-      // Update the table with the new data
-      userNameEl.textContent = updatedUser.name || 'N/A';
-      userMobileEl.textContent = updatedUser.mobile || 'N/A';
-      userEmailEl.textContent = updatedUser.email || 'N/A';
+      let result;
+      try {
+        result = await response.json();
+      } catch (e) {
+        result = { message: `Server Error: ${response.status}` };
+      }
 
-      // Update form values
-      mobileInput.value = updatedUser.mobile || '';
-      emailInput.value = updatedUser.email || '';
+      if (response.ok) {
+        Toast.success('Profile updated successfully!');
+        const updatedUser = result.user || result;
+
+        // Update the table with the new data from DB
+        userNameEl.textContent = updatedUser.name || 'N/A';
+        userMobileEl.textContent = updatedUser.mobile || 'N/A';
+        userEmailEl.textContent = updatedUser.email || 'N/A';
+      } else {
+        throw new Error(result.message || 'Update failed');
+      }
       
     } catch (error) {
       console.error('Error updating profile:', error);

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     // Try API if no local data
     try {
-      const response = await fetch(`${CONFIG.API.BASE_URL}/bookings/${bookingId}`, {
+      const response = await fetch(`http://13.203.105.12:3000/api/bookings/${bookingId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem(CONFIG.STORAGE.TOKEN)}`
         }
@@ -87,19 +87,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Wait longer for QRCode library to load
     const generateQR = () => {
       if (typeof QRCode !== 'undefined') {
-        QRCode.toCanvas(qrContainer, qrString, {
-          width: 200,
-          height: 200,
-          color: {
-            dark: '#000000',
-            light: '#FFFFFF'
-          }
-        }, (error) => {
-          if (error) {
-            console.error('QR Code generation failed:', error);
-            qrContainer.innerHTML = '<p style="color: #9ca3af;">QR Code unavailable</p>';
-          }
-        });
+        qrContainer.innerHTML = ''; // Clear loading text
+        
+        // Check for qrcode.js (constructor style) vs node-qrcode (toCanvas style)
+        if (typeof QRCode.toCanvas === 'function') {
+          QRCode.toCanvas(qrContainer, qrString, {
+            width: 200,
+            height: 200,
+            color: { dark: '#000000', light: '#FFFFFF' }
+          }, (error) => {
+            if (error) {
+              console.error('QR Code generation failed:', error);
+              qrContainer.innerHTML = '<p style="color: #9ca3af;">QR Code unavailable</p>';
+            }
+          });
+        } else {
+          // Fallback to qrcode.js style (new QRCode) - Matches payment.js
+          new QRCode(qrContainer, {
+            text: qrString,
+            width: 200,
+            height: 200,
+            colorDark: '#000000',
+            colorLight: '#ffffff'
+          });
+        }
       } else {
         // Try again after 1 second
         setTimeout(generateQR, 1000);
@@ -218,8 +229,8 @@ Please show this ticket and QR code at the event entrance.
         doc.text(`${numTickets} Ticket(s)`, 25, 190);
         
         // QR Code section with border
-        const qrCanvas = document.querySelector('#qr-code canvas');
-        if (qrCanvas) {
+        const qrElement = document.querySelector('#qr-code canvas') || document.querySelector('#qr-code img');
+        if (qrElement) {
           // QR background
           doc.setFillColor(248, 250, 252);
           doc.roundedRect(125, 95, 60, 80, 4, 4, 'F');
@@ -229,7 +240,7 @@ Please show this ticket and QR code at the event entrance.
           doc.setLineWidth(1);
           doc.roundedRect(125, 95, 60, 80, 4, 4, 'S');
           
-          const qrDataURL = qrCanvas.toDataURL('image/png');
+          const qrDataURL = qrElement.tagName === 'CANVAS' ? qrElement.toDataURL('image/png') : qrElement.src;
           doc.addImage(qrDataURL, 'PNG', 135, 105, 40, 40);
           
           // QR label

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - EventHub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #ffffff;
+      scroll-behavior: smooth;
+    }
+
+    .hero-gradient {
+      background: radial-gradient(circle at top right, #f5f3ff 0%, #ffffff 50%);
+    }
+
+    .feature-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -12px rgba(79, 70, 229, 0.1);
+    }
+
+    .glass-icon {
+      background: rgba(79, 70, 229, 0.05);
+      border: 1px solid rgba(79, 70, 229, 0.1);
+    }
+  </style>
+</head>
+<body class="hero-gradient min-h-screen">
+
+  <!-- Header / Logo Corner -->
+  <header class="w-full p-6 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-md z-50">
+    <div class="flex items-center gap-2 group cursor-pointer">
+      <div class="bg-indigo-600 p-2 rounded-xl transition-transform group-hover:rotate-12">
+        <i data-lucide="calendar" class="text-white w-6 h-6"></i>
+      </div>
+      <span class="text-2xl font-extrabold tracking-tight text-slate-900">Event<span class="text-indigo-600">Hub</span></span>
+    </div>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-slate-600">
+      <a href="dashboard.html" class="hover:text-indigo-600 transition-colors">Back</a>
+      <a href="dashboard.html" class="bg-slate-900 text-white px-5 py-2.5 rounded-xl hover:bg-slate-800 transition-all">Get Started</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="container mx-auto px-6 pt-20 pb-16 text-center">
+      <span class="px-4 py-1.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full uppercase tracking-widest mb-6 inline-block">Our Mission</span>
+      <h1 class="text-5xl md:text-7xl font-black text-slate-900 mb-8 tracking-tight">
+        Redefining the <span class="text-indigo-600">Event Experience.</span>
+      </h1>
+      <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+        EventHub is an all-in-one ecosystem built to bridge the gap between event organizers and attendees through cutting-edge technology and seamless design.
+      </p>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="container mx-auto px-6 py-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 p-12 bg-slate-900 rounded-[40px] text-center">
+        <div>
+          <div class="text-4xl font-black text-white mb-2">10k+</div>
+          <div class="text-slate-400 text-sm font-medium">Tickets Sold</div>
+        </div>
+        <div>
+          <div class="text-4xl font-black text-white mb-2">500+</div>
+          <div class="text-slate-400 text-sm font-medium">Events Hosted</div>
+        </div>
+        <div>
+          <div class="text-4xl font-black text-white mb-2">99.9%</div>
+          <div class="text-slate-400 text-sm font-medium">Uptime Rate</div>
+        </div>
+        <div>
+          <div class="text-4xl font-black text-white mb-2">24/7</div>
+          <div class="text-slate-400 text-sm font-medium">Support</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="container mx-auto px-6 py-24">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div class="max-w-xl">
+          <h2 class="text-4xl font-extrabold text-slate-900 mb-4">Everything you need to manage events.</h2>
+          <p class="text-slate-500">We've built a robust set of tools to ensure your event runs smoothly from the first ticket sold to the final check-in.</p>
+        </div>
+        <button class="flex items-center gap-2 text-indigo-600 font-bold hover:gap-3 transition-all">
+          View all features <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="feature-card p-10 rounded-[32px] bg-white border border-slate-100">
+          <div class="w-14 h-14 rounded-2xl glass-icon flex items-center justify-center mb-8">
+            <i data-lucide="qr-code" class="text-indigo-600 w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-4">Secure QR Ticketing</h3>
+          <p class="text-slate-500 leading-relaxed">Encrypted unique QR codes for every attendee to prevent fraud and ensure rapid entry validation.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card p-10 rounded-[32px] bg-white border border-slate-100">
+          <div class="w-14 h-14 rounded-2xl glass-icon flex items-center justify-center mb-8">
+            <i data-lucide="layout-dashboard" class="text-indigo-600 w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-4">Live Seat Mapping</h3>
+          <p class="text-slate-500 leading-relaxed">Real-time synchronization using WebSockets so users can pick their favorite spots with zero conflict.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card p-10 rounded-[32px] bg-white border border-slate-100">
+          <div class="w-14 h-14 rounded-2xl glass-icon flex items-center justify-center mb-8">
+            <i data-lucide="shield-check" class="text-indigo-600 w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-4">Staff Check-in Portal</h3>
+          <p class="text-slate-500 leading-relaxed">A specialized mobile-first interface for event staff to scan and verify tickets in milliseconds.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="bg-slate-50 py-24">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-extrabold text-slate-900 mb-4">Built with Modern Tech</h2>
+          <p class="text-slate-500">Our stack is chosen for speed, security, and scalability.</p>
+        </div>
+        
+        <div class="flex flex-wrap justify-center gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+          <div class="flex items-center gap-3 font-bold text-xl text-slate-700">
+            <i data-lucide="code-2" class="text-indigo-600"></i> JavaScript ES6+
+          </div>
+          <div class="flex items-center gap-3 font-bold text-xl text-slate-700">
+            <i data-lucide="layers" class="text-indigo-600"></i> Tailwind CSS
+          </div>
+          <div class="flex items-center gap-3 font-bold text-xl text-slate-700">
+            <i data-lucide="database" class="text-indigo-600"></i> RESTful API
+          </div>
+          <div class="flex items-center gap-3 font-bold text-xl text-slate-700">
+            <i data-lucide="zap" class="text-indigo-600"></i> WebSockets
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container mx-auto px-6 py-24">
+      <div class="bg-indigo-600 rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden">
+        <div class="relative z-10">
+          <h2 class="text-3xl md:text-5xl font-black text-white mb-6">Ready to experience EventHub?</h2>
+          <p class="text-indigo-100 text-lg mb-10 max-w-xl mx-auto">Join thousands of users who are already discovering and managing events the modern way.</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          </div>
+        </div>
+        <!-- Decorative Circles -->
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-indigo-500 rounded-full opacity-20"></div>
+        <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-400 rounded-full opacity-20"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-100 py-12">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-2">
+        <div class="bg-indigo-600 p-1.5 rounded-lg">
+          <i data-lucide="calendar" class="text-white w-4 h-4"></i>
+        </div>
+        <span class="text-lg font-extrabold text-slate-900">EventHub</span>
+      </div>
+      <p class="text-slate-400 text-sm">© 2026 EventHub Project. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-slate-400 hover:text-indigo-600 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+        <a href="#" class="text-slate-400 hover:text-indigo-600 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+        <a href="#" class="text-slate-400 hover:text-indigo-600 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

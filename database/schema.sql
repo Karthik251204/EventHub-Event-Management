@@ -36,6 +36,9 @@ CREATE TABLE IF NOT EXISTS bookings (
   number_of_seats INTEGER NOT NULL,
   total_price DECIMAL(10, 2) NOT NULL,
   status VARCHAR(50) DEFAULT 'confirmed' CHECK (status IN ('pending', 'confirmed', 'cancelled')),
+  ticket_holder_name VARCHAR(255),
+  ticket_holder_mobile VARCHAR(20),
+  ticket_holder_email VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

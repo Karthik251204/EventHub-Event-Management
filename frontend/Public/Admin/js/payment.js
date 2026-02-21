@@ -53,7 +53,6 @@ function loadPaymentRecords() {
       <td>${record.upiId}</td>
       <td>
         <button class="action-btn action-edit" onclick="editPaymentRecord(${index})">Edit</button>
-        <button class="action-btn action-delete" onclick="deletePaymentRecord(${index})">Delete</button>
       </td>
     `;
     paymentsTbody.appendChild(row);
@@ -77,21 +76,6 @@ window.editPaymentRecord = function(index) {
   
   // Scroll to form
   form.scrollIntoView({ behavior: 'smooth' });
-};
-
-// Delete payment record
-window.deletePaymentRecord = function(index) {
-  if (confirm('Are you sure you want to delete this payment record?')) {
-    const records = JSON.parse(localStorage.getItem(RECORDS_STORAGE_KEY) || '[]');
-    records.splice(index, 1);
-    localStorage.setItem(RECORDS_STORAGE_KEY, JSON.stringify(records));
-    loadPaymentRecords();
-    msgEl.textContent = 'Payment record deleted.';
-    msgEl.style.color = '#fca5a5';
-    setTimeout(() => {
-      msgEl.textContent = '';
-    }, 3000);
-  }
 };
 
 form.addEventListener('submit', async e => {

@@ -1,5 +1,5 @@
-// API Configuration - use global CONFIG so it can switch between localhost and EC2 easily
-const API_URL = CONFIG?.API?.BASE_URL || `http://localhost:3000/api`;
+// API Configuration - dynamically set for any deployment
+const API_URL = `http://13.203.105.12:3000/api`;
 
 // Helper function to get JWT token
 function getToken() {
@@ -135,6 +135,26 @@ export async function getUserBookings() {
   }
 }
 
+// Get organizer bookings
+export async function getOrganizerBookings() {
+  try {
+    const response = await fetch(`${API_URL}/bookings/organizer`, {
+      method: 'GET',
+      headers: getHeaders(true)
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch organizer bookings');
+    }
+
+    const data = await response.json();
+    return data.bookings || [];
+  } catch (error) {
+    console.error('Error fetching organizer bookings:', error);
+    return [];
+  }
+}
+
 // Get organizer analytics (requires organizer role)
 export async function getOrganizerAnalytics(organizerId) {
   try {
@@ -224,4 +244,3 @@ export async function recordPayment(bookingId, paymentMethod, transactionId = ''
     throw error;
   }
 }
-

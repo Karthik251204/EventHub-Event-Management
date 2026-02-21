@@ -1,8 +1,14 @@
 const navbar = document.getElementById('navbar');
 
 function renderNavbar() {
-  const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
-  const userJSON = localStorage.getItem(CONFIG.STORAGE.USER);
+  const token = (typeof CONFIG !== 'undefined' && CONFIG.STORAGE) 
+    ? localStorage.getItem(CONFIG.STORAGE.TOKEN) 
+    : (localStorage.getItem('token') || localStorage.getItem('authToken') || localStorage.getItem('eventhub_token') || localStorage.getItem('auth_token'));
+
+  const userJSON = (typeof CONFIG !== 'undefined' && CONFIG.STORAGE)
+    ? localStorage.getItem(CONFIG.STORAGE.USER)
+    : (localStorage.getItem('user') || localStorage.getItem('auth_user'));
+
   const user = token && userJSON ? JSON.parse(userJSON) : null;
   const isSpecialPage = window.location.pathname.endsWith('profile.html') || window.location.pathname.endsWith('edit.html');
 
@@ -74,10 +80,16 @@ function viewProfile() {
 }
 
 function logout() {
-  localStorage.removeItem(CONFIG.STORAGE.TOKEN);
-  localStorage.removeItem(CONFIG.STORAGE.USER);
-  // Redirect to local admin home
-  window.location.href = '/Public/Admin/pages/index.html';
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('eventhub_token');
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('auth_user');
+  if (typeof CONFIG !== 'undefined' && CONFIG.STORAGE) {
+    localStorage.removeItem(CONFIG.STORAGE.TOKEN);
+    localStorage.removeItem(CONFIG.STORAGE.USER);
+  }
+  window.location.href = '/index.html';
 }
 
 document.addEventListener('DOMContentLoaded', renderNavbar);

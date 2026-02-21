@@ -26,13 +26,67 @@
 
   <main>
     <section id="events" class="events-section container">
-      <header class="events-filter">
-        <h2>Upcoming Events</h2>
-        <div class="filter-controls">
-  <input type="text" id="search-input" placeholder="Search events...">
-</div>
-
+      <header class="events-header">
+        <div class="events-title">
+          <h2>Discover & Book Amazing Events</h2>
+          <p>Find events that match your interests</p>
+        </div>
       </header>
+
+      <div class="filter-section">
+        <div class="search-wrapper">
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="🔍 Search events by name, location, or category..."
+            class="search-input"
+          >
+        </div>
+
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label for="category-filter">Category</label>
+            <select id="category-filter" class="filter-select">
+              <option value="all">All Categories</option>
+              <option value="concert">🎵 Concert</option>
+              <option value="tech">💻 Tech Talk</option>
+              <option value="workshop">🛠️ Workshop</option>
+              <option value="cultural">🎭 Cultural</option>
+              <option value="sports">⚽ Sports</option>
+              <option value="other">📌 Other</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="price-range">Max Price</label>
+            <input 
+              type="range" 
+              id="price-range" 
+              min="0" 
+              max="10000" 
+              value="10000"
+              class="filter-range"
+            >
+            <span id="price-display">₹10,000</span>
+          </div>
+
+          <div class="filter-group">
+            <label for="sort-by">Sort By</label>
+            <select id="sort-by" class="filter-select">
+              <option value="upcoming">Upcoming</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="popular">Most Popular</option>
+            </select>
+          </div>
+
+          <button id="reset-filters" class="btn btn-secondary">Reset Filters</button>
+        </div>
+      </div>
+
+      <div class="events-count">
+        <p id="events-count-display">Loading events...</p>
+      </div>
 
       <section class="events-grid grid grid-3" id="events-container">
         <!-- Events loaded by JS -->

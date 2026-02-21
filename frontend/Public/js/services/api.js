@@ -153,11 +153,23 @@ class ApiService {
    * Login
    */
   async login(email, password) {
+    console.log('📡 [ApiService] Sending login request to:', `${this.baseURL}/auth/login`);
+    console.log('   Email:', email);
+    
     const response = await this.post('/auth/login', { email, password });
+    
+    console.log('📦 [ApiService] Login response received');
+    console.log('   Status: Success');
+    console.log('   User ID:', response.user?.id);
+    console.log('   User Name:', response.user?.name);
+    console.log('   User Role:', response.user?.role);
+    console.log('   User Email:', response.user?.email);
+    console.log('   Token present:', !!response.token);
 
     // Save token and user
     if (response.token) {
       this.saveAuth(response.token, response.user);
+      console.log('✅ [ApiService] Auth data saved locally');
     }
 
     return response;
@@ -240,6 +252,13 @@ class ApiService {
    */
   async getBookings() {
     return this.get('/bookings');
+  }
+
+  /**
+   * Get Organizer Bookings
+   */
+  async getOrganizerBookings() {
+    return this.get('/bookings/organizer');
   }
 
   /**

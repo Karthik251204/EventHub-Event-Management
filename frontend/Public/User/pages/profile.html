@@ -4,76 +4,166 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile - EventHub</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/pages.css">
-  <link rel="stylesheet" href="../css/profile.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 24px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .modal-overlay {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+    }
+  </style>
 </head>
-<body>
-  <nav id="navbar"></nav>
+<body class="min-h-screen flex flex-col">
 
-  <main class="container">
-    <section class="profile-section">
-      <div class="profile-content">
-        <h2>User Information</h2>
-        <table id="user-info-table">
-          <tbody>
-            <tr>
-              <td><strong>Name:</strong></td>
-              <td id="user-name"></td>
-            </tr>
-            <tr>
-              <td><strong>Category:</strong></td>
-              <td id="user-category"></td>
-            </tr>
-            <tr>
-              <td><strong>Mobile:</strong></td>
-              <td id="user-mobile"></td>
-            </tr>
-            <tr>
-              <td><strong>Email:</strong></td>
-              <td id="user-email"></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <hr>
-
-        <h2>Update Information</h2>
-        <form id="update-form">
-          <div class="form-group">
-            <label for="mobile">Mobile Number</label>
-            <input type="text" id="mobile" name="mobile" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Update</button>
-          </div>
-        </form>
+  <!-- Header / Logo Corner -->
+  <header class="w-full p-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+    <div class="flex items-center gap-2 group cursor-pointer">
+      <div class="bg-indigo-600 p-2 rounded-xl transition-transform group-hover:rotate-12">
+        <i data-lucide="calendar" class="text-white w-6 h-6"></i>
       </div>
-    </section>
+      <span class="text-2xl font-extrabold tracking-tight text-slate-900">Event<span class="text-indigo-600">Hub</span></span>
+    </div>
+    <nav id="navbar" class="hidden md:block">
+      <!-- Navbar content injected by Navbar.js -->
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto max-w-5xl px-4 py-12">
+    <div class="mb-10">
+      <h1 class="text-3xl font-extrabold text-slate-900">Account Settings</h1>
+      <p class="text-slate-500">Manage your profile information and contact details</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Left Column: User Info Display -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="profile-card p-8">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center">
+              <i data-lucide="user" class="w-8 h-8 text-indigo-600"></i>
+            </div>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Personal Details</h2>
+              <p class="text-xs font-bold text-indigo-600 uppercase tracking-widest" id="user-category">Loading...</p>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="info-row">
+              <span class="text-slate-500 text-sm font-medium">Full Name</span>
+              <span id="user-name" class="text-slate-900 font-bold">---</span>
+            </div>
+            <div class="info-row">
+              <span class="text-slate-500 text-sm font-medium">Mobile</span>
+              <span id="user-mobile" class="text-slate-900 font-bold">---</span>
+            </div>
+            <div class="info-row">
+              <span class="text-slate-500 text-sm font-medium">Email Address</span>
+              <span id="user-email" class="text-slate-900 font-bold">---</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-indigo-600 rounded-3xl p-6 text-white shadow-xl shadow-indigo-100 relative overflow-hidden">
+          <div class="relative z-10">
+            <h3 class="font-bold mb-2">Need Help?</h3>
+            <p class="text-indigo-100 text-sm mb-4">Having trouble with your account or bookings?</p>
+            <button class="bg-white text-indigo-600 text-xs font-bold py-2 px-4 rounded-full uppercase tracking-wider">Contact Support</button>
+          </div>
+          <i data-lucide="help-circle" class="absolute -bottom-4 -right-4 w-24 h-24 text-indigo-500 opacity-20"></i>
+        </div>
+      </div>
+
+      <!-- Right Column: Update Form -->
+      <div class="lg:col-span-7">
+        <div class="profile-card p-8">
+          <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <i data-lucide="edit-3" class="w-5 h-5 text-indigo-600"></i>
+            Update Information
+          </h2>
+
+          <form id="update-form" class="space-y-6">
+            <div class="space-y-2">
+              <label for="mobile" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Mobile Number</label>
+              <div class="relative">
+                <input type="text" id="mobile" name="mobile" required placeholder="Enter new mobile number"
+                  class="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                <i data-lucide="phone" class="absolute left-4 top-3.5 text-slate-400 w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label for="email" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Email Address</label>
+              <div class="relative">
+                <input type="email" id="email" name="email" required placeholder="Enter new email address"
+                  class="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                <i data-lucide="mail" class="absolute left-4 top-3.5 text-slate-400 w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="pt-4">
+              <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-slate-200 flex items-center justify-center gap-3">
+                <i data-lucide="save" class="w-5 h-5"></i>
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </main>
 
-  <div id="modal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <h2 id="modal-title"></h2>
-      <p id="modal-message"></p>
-      <div class="modal-actions">
-        <button id="modal-confirm" class="btn btn-primary">OK</button>
+  <!-- Modal Structure -->
+  <div id="modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay" style="display: none;">
+    <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl transform transition-all animate-in zoom-in-95 duration-200">
+      <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+        <i data-lucide="info" class="w-8 h-8 text-indigo-600"></i>
       </div>
+      <h2 id="modal-title" class="text-2xl font-bold text-slate-900 text-center mb-2">Notification</h2>
+      <p id="modal-message" class="text-slate-500 text-center mb-8 leading-relaxed">
+        Your profile has been updated successfully.
+      </p>
+      <button id="modal-confirm" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl transition-all">
+        Confirm
+      </button>
     </div>
   </div>
 
-  <script src="../../js/config.js"></script>
-  <script src="../../js/utils.js"></script>
-  <script src="../../js/services/api.js"></script>
-  <script src="../../js/services/auth.js"></script>
-  <script src="../../js/components/toast.js"></script>
-  <script src="../../js/components/modal.js"></script>
+  <script>
+    lucide.createIcons();
+    
+    // Your profile.js (type="module") will handle:
+    // 1. Fetching user data and populating user-name, user-mobile, etc.
+    // 2. Handling the update-form submission.
+    // 3. Triggering the modal/toast.
+  </script>
   <script src="../js/components/Navbar.js"></script>
-  <script type="module" src="../js/pages/profile.js"></script>
+  <script src="../js/pages/profile.js"></script>
 </body>
 </html>

@@ -6,19 +6,8 @@
 
 const CONFIG = {
   // API Configuration
-  // NOTE:
-  // - When deployed on EC2 (3.110.40.57), the browser must call that IP
-  // - When running locally (localhost/127.0.0.1), use the local backend
   API: {
-    BASE_URL: (() => {
-      const host = window.location.hostname;
-      // Local development (your machine)
-      if (host === 'localhost' || host === '127.0.0.1') {
-        return 'http://localhost:3000/api';
-      }
-      // Deployed on EC2 (your server IP)
-      return 'http://3.110.40.57:3000/api';
-    })(),
+    BASE_URL: `http://127.0.0.1:3000/api`,
     ENDPOINTS: {
       AUTH: '/auth',
       EVENTS: '/events',
@@ -51,14 +40,14 @@ const CONFIG = {
 
   // Pages
   PAGES: {
-    HOME: '/index.html',
-    LOGIN: '/Public/auth/pages/login.html',
-    SIGNUP: '/Public/auth/pages/signup.html',
-    DASHBOARD: '/Public/User/pages/index.html',
-    EVENTS: '/Public/User/pages/index.html',
-    EVENT_DETAIL: '/Public/User/pages/event-detail.html',
-    ADMIN: '/Public/Admin/pages/index.html',
-    CHECKIN: '/Public/User/pages/checkin.html'
+    HOME: './index.html',
+    LOGIN: './Public/auth/pages/login.html',
+    SIGNUP: './Public/auth/pages/signup.html',
+    DASHBOARD: './Public/User/pages/index.html',
+    EVENTS: './Public/User/pages/index.html',
+    EVENT_DETAIL: './Public/User/pages/event-detail.html',
+    ADMIN: './Public/Admin/pages/index.html',
+    CHECKIN: './Public/User/pages/checkin.html'
   },
 
   // Messages
